@@ -1,72 +1,77 @@
-# scripts-solana
+# SPL Token and MPL Core NFT
 
-Scripts for creating SPL tokens and NFTs on Solana devnet.
+Solana devnet.
 
----
-
-## Setup
-
-### 1. Add your wallet
-
-Place your devnet wallet keypair file at the project root:
-
-```
-root/
-└── devnet-wallet.json   ← here
-```
-
-It should be a JSON array of numbers, e.g. `[174, 23, ...]`.
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-```bash
-npm install --save-dev @types/node ts-node typescript
-```
-
-### 3. Add your image
-
-Place your image at the project root.
-
-```
-root/
-└── image.jpeg   ← here
-```
+| Item | Address |
+| --- | --- |
+| Wallet | [`89JxEXQum...`](https://explorer.solana.com/address/89JxEXQum62x6xBHtDuwgCvyT3DjwTvMs13xpMHrZnbw?cluster=devnet) |
+| SPL mint | [`4ox2M6goA...`](https://explorer.solana.com/address/4ox2M6goAhTZYois5FaQSA2caLPEMiWQHN91d4QQa5x8?cluster=devnet) |
+| NFT asset | [`FDBYcPxgp...`](https://explorer.solana.com/address/FDBYcPxgp3e1dopaee9t524S39XGfyLw89CoVzrDzRvM?cluster=devnet) |
 
 ---
 
-> Before running the scripts, go through these docs:
-> - [Solana token docs](https://solana.com/docs/tokens) — mint accounts, token accounts, and ATAs
-> - [Solana Kit](https://www.solanakit.com/) — the JS SDK used for building and sending transactions
-> - [Metaplex Token Metadata](https://www.metaplex.com/docs/smart-contracts/token-metadata) — attaching metadata to SPL tokens
-> - [Metaplex Core](https://www.metaplex.com/docs/smart-contracts/core) — the NFT standard used in the NFT scripts
+## Task 1 - SPL token
 
-## SPL Token
+**Created the mint.** Six decimals. `createAccount` and `initializeMint` in one transaction.
 
-Uses **@solana/kit** and **@solana-program/token** for transactions, and **mpl-token-metadata** via UMI for on-chain metadata.
+![spl init](assets/step_01.png)
 
-| Script | Command | What it does |
-|---|---|---|
-| `spl_init.ts` | `npm run spl:init` | Creates a new mint account |
-| `spl_metadata.ts` | `npm run spl:metadata` | Attaches a name, symbol, and URI to the mint |
-| `spl_mint.ts` | `npm run spl:mint` | Creates your associated token account and mints tokens into it |
-| `spl_transfer.ts` | `npm run spl:transfer` | Sends tokens to another wallet i.e ata to ata |
+[tx](https://explorer.solana.com/tx/2qHZKBGE7NNWvShEyPiyjm3YgYKnhZWUn7jjyDrALXWrBFMuQ8noyv5ttYu27kntQ8KvA5ZcogaxUArqewGnwAKC?cluster=devnet)
 
-Run them in order. Each script logs the addresses/signatures you'll need to paste into the next one.
+**Attached the token metadata.** Name and symbol on chain.
+
+![spl metadata](assets/step_02.png)
+
+[tx](https://explorer.solana.com/tx/5TxAf6LyiizxLZpenhWoYvGic1MKftoP9NabmfrSsrJyK3RbYdLSSgeJgoiJkBSt2qpPaPN1XmQYkiqYzvM7TZSg?cluster=devnet)
+
+**Created my ATA and minted 100 tokens.** ATA `FNxFBX5qTryB4ocz2YDQJcDD99jd18VaGFFHMe9NgLkJ`.
+
+![spl mint](assets/step_03.png)
+
+[tx](https://explorer.solana.com/tx/3vuTEtMpyX2gupF7Vg4Q9pi13DJwxew29NYSKNwBfusyfLRiXdqeXdVPhWtdVtfphtEL81y7FgmK4zbCTXwx9CCE?cluster=devnet)
+
+**Transferred 10 tokens.** Recipient ATA `x9HaFz5sMdmXypruV8pvWtz64JmdGhb2L8YDt3DAwzC`.
+
+[tx](https://explorer.solana.com/tx/59LFyBNDrZuirTSkbPBQTzbAWP8xm3kpgjpcsfYu4JXx6Fx2nMnSnqZ6MpJV9ictMpSTowL2CbRrBF3AKzWSckod?cluster=devnet)
 
 ---
 
-## NFT
+## Task 2 - MPL Core NFT
 
-Uses **@solana/kit** and **mpl-core** via UMI. Images and metadata are stored on Irys (decentralized storage).
+**Uploaded the image to Irys.**
 
-| Script | Command | What it does |
-|---|---|---|
-| `nft_image.ts` | `npm run nft:image` | Uploads your image to Irys, logs the image URI |
-| `nft_metadata.ts` | `npm run nft:metadata` | Builds the metadata JSON and uploads it, logs the metadata URI |
-| `nft_mint.ts` | `npm run nft:mint` | Mints the NFT on-chain using the metadata URI |
+![nft image](assets/task_02_step_01.png)
 
-Run them in order. Paste the URI logged by each step into the next script before running it.
+[image](https://gateway.irys.xyz/8ssLY2kFzZJYYzxdeLN4vAK6M1h5uimtf97momV8K2Wd)
+
+**Uploaded the metadata JSON to Irys.**
+
+![nft metadata](assets/task_02_step_02_medatada.png)
+
+[metadata](https://gateway.irys.xyz/6e6di2N7SejVZJNYEaak5JpN7bP6kyXK7j8SS8g85pML)
+
+**Minted the asset.** Only the name and the metadata URI go on chain.
+
+![nft mint](assets/task_02_step_03_mint_nft.png)
+
+[tx](https://explorer.solana.com/tx/56r2yUaGxA6P6nExxo1L77Zk2Sr8GwDMSuqZCUuY8X9nMSGM7bwBMpoDgJdVfgsLNGDGayx7m83LQX4SBAmQXEwU?cluster=devnet)
+
+On chain, named `Panda tea`:
+
+![nft before](assets/task_02_step_03_nft.png)
+
+---
+
+## Task 3 - Update the NFT
+
+**Uploaded a new JSON and pointed the asset at it.** The wallet is the update authority.
+
+![nft update](assets/task_03_01.png)
+
+[tx](https://explorer.solana.com/tx/nz47a87Ez2bxbP79kEKTM1H8j6XJz1cnT2U8iLbhcopryFNMJam7Dy792Ey7V3CiPQE8tXm5h7MrZ4xXKTUdeHV?cluster=devnet)
+
+The script read the asset back too early and printed stale values. The chain has the change. Name is now `Panda tea v2`:
+
+![nft after](assets/task_03_02.png)
+
+---
